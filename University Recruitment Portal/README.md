@@ -1,19 +1,18 @@
 # University Recruitment Portal
 
-University Recruitment Portal is a web application designed to connect students and graduates with available job opportunities through an easy-to-use online platform.
+This project was developed as part of the **Internet Technologies** course. It is a web-based recruitment portal designed to connect students and job seekers with available employment opportunities through a simple and user-friendly interface.
 
 ## Overview
 
-The platform allows users to browse job opportunities, submit applications, and access information about available positions. It also provides a structured interface for managing job listings and applications.
+The system allows users to browse job listings, submit job applications, and access information about available opportunities. It demonstrates the integration of front-end and back-end web technologies with database connectivity.
 
 ## Features
 
-- Browse available job opportunities
-- Online job application form
-- Responsive user interface
-- Database integration using PHP and MySQL
-- Contact page
-- About page
+- Browse job opportunities
+- Submit online job applications
+- Responsive and user-friendly interface
+- Database connectivity using PHP and MySQL
+- About and Contact pages
 
 ## Technologies
 
@@ -23,16 +22,6 @@ The platform allows users to browse job opportunities, submit applications, and 
 - PHP
 - MySQL
 
-## Project Structure
-
-- `home.php` – Home page
-- `jobs.php` – Job listings
-- `apply.php` – Job application processing
-- `contact.html` – Contact page
-- `about.html` – About page
-- `connection.php` – Database connection
-- `code.sql` – Database schema
-
 ## Purpose
 
-This project was developed to practice full-stack web development by integrating frontend technologies with PHP and MySQL to build a functional job recruitment platform.
+The purpose of this project is to apply web development concepts learned in the **Internet Technologies** course by building a dynamic web application with database integration.
