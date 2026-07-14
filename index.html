@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة المغامرة الفضائية</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        #game-container {
+            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 3px solid #00d4ff;
+        }
+        
+        .game-info {
+            background: rgba(255,255,255,0.95);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 25px;
+            max-width: 900px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #00d4ff;
+            text-align: center;
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(0,212,255,0.5);
+            font-size: 2.5em;
+        }
+        
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .control-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+        }
+        
+        .control-box h3 {
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+        
+        .feature {
+            background: #f8f9fa;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 لعبة المغامرة الفضائية 🌟</h1>
+    <div id="game-container"></div>
+    
+    <div class="game-info">
+        <h2 style="color: #667eea; text-align: center;">🎮 التحكم والمميزات</h2>
+        <div class="controls-grid">
+            <div class="control-box">
+                <h3>⌨️ التحكم</h3>
+                <div>⬅️➡️ الأسهم: التحرك</div>
+                <div>⬆️ سهم للأعلى: القفز</div>
+                <div>SPACE: إطلاق النار</div>
+                <div>R: إعادة اللعبة</div>
+            </div>
+            
+            <div class="control-box">
+                <h3>🎯 الهدف</h3>
+                <div>⭐ اجمع النجوم</div>
+                <div>💎 اجمع الجواهر</div>
+                <div>👾 تجنب الأعداء</div>
+                <div>🚀 احصل على أعلى نقاط!</div>
+            </div>
+            
+            <div class="control-box">
+                <h3>✨ المميزات</h3>
+                <div>📜 Tile Sprite Scrolling</div>
+                <div>🎬 Animation System</div>
+                <div>📸 Camera Follow</div>
+                <div>⚡ Physics & Collisions</div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 10px;">
+            <h3 style="color: #2e7d32; margin-top: 0;">📋 ميزات تقنية متقدمة:</h3>
+            <div class="feature">🎨 <strong>Tile Sprite:</strong> خلفية متحركة مع الكاميرا بتأثير Parallax</div>
+            <div class="feature">🎭 <strong>Animations:</strong> حركات متعددة (مشي، قفز، خمول، موت)</div>
+            <div class="feature">📹 <strong>Camera System:</strong> الكاميرا تتبع اللاعب تلقائياً</div>
+            <div class="feature">⚔️ <strong>Combat System:</strong> إطلاق نار وتدمير أعداء</div>
+            <div class="feature">🎪 <strong>Particle Effects:</strong> تأثيرات جزيئات متقدمة</div>
+            <div class="feature">🎵 <strong>Game States:</strong> حالات اللعبة (لعب، موت، فوز)</div>
+        </div>
+    </div>
+
+    <script>
+        const config = {
+            type: Phaser.AUTO,
+            width: 1000,
+            height: 600,
+            parent: 'game-container',
+            backgroundColor: '#000000',
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 800 },
+                    debug: false
+                }
+            },
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+
+        const game = new Phaser.Game(config);
+        
+        // متغيرات اللعبة
+        let player;
+        let cursors;
+        let stars;
+        let gems;
+        let enemies;
+        let bullets;
+        let platforms;
+        let background;
+        let middleground;
+        let foreground;
+        let score = 0;
+        let scoreText;
+        let livesText;
+        let lives = 3;
+        let gameOver = false;
+        let canShoot = true;
+        let shootCooldown = 300;
+        let particles;
+        let worldBounds = { width: 3000, height: 600 };
+
+        function preload() {
+            createTextures(this);
+        }
+
+        function createTextures(scene) {
+            // إنشاء اللاعب
+            const playerGraphics = scene.add.graphics();
+            playerGraphics.fillStyle(0x00ff00, 1);
+            playerGraphics.fillRect(8, 0, 16, 32);
+            playerGraphics.fillStyle(0x00cc00, 1);
+            playerGraphics.fillCircle(16, 8, 6);
+            playerGraphics.fillStyle(0xffff00, 1);
+            playerGraphics.fillRect(12, 12, 8, 4);
+            playerGraphics.fillRect(6, 16, 8, 8);
+            playerGraphics.fillRect(18, 16, 8, 8);
+            playerGraphics.generateTexture('player', 32, 32);
+            playerGraphics.destroy();
+
+            // إنشاء منصة
+            const platformGraphics = scene.add.graphics();
+            platformGraphics.fillStyle(0x8b4513, 1);
+            platformGraphics.fillRect(0, 0, 200, 32);
+            platformGraphics.fillStyle(0xa0522d, 1);
+            for (let i = 0; i < 10; i++) {
+                platformGraphics.fillRect(i * 20, 0, 18, 4);
+            }
+            platformGraphics.generateTexture('platform', 200, 32);
+            platformGraphics.destroy();
+
+            // إنشاء نجمة
+            const starGraphics = scene.add.graphics();
+            starGraphics.fillStyle(0xffff00, 1);
+            starGraphics.beginPath();
+            for (let i = 0; i < 5; i++) {
+                const angle = (i * 144 - 90) * Math.PI / 180;
+                const x = 16 + Math.cos(angle) * 14;
+                const y = 16 + Math.sin(angle) * 14;
+                if (i === 0) starGraphics.moveTo(x, y);
+                else starGraphics.lineTo(x, y);
+                const innerAngle = (i * 144 - 90 + 72) * Math.PI / 180;
+                const ix = 16 + Math.cos(innerAngle) * 7;
+                const iy = 16 + Math.sin(innerAngle) * 7;
+                starGraphics.lineTo(ix, iy);
+            }
+            starGraphics.closePath();
+            starGraphics.fillPath();
+            starGraphics.lineStyle(2, 0xffa500);
+            starGraphics.strokePath();
+            starGraphics.generateTexture('star', 32, 32);
+            starGraphics.destroy();
+
+            // إنشاء جوهرة
+            const gemGraphics = scene.add.graphics();
+            gemGraphics.fillStyle(0xff00ff, 1);
+            gemGraphics.beginPath();
+            gemGraphics.moveTo(16, 4);
+            gemGraphics.lineTo(28, 12);
+            gemGraphics.lineTo(24, 28);
+            gemGraphics.lineTo(8, 28);
+            gemGraphics.lineTo(4, 12);
+            gemGraphics.closePath();
+            gemGraphics.fillPath();
+            gemGraphics.fillStyle(0xff69ff, 0.7);
+            gemGraphics.fillCircle(16, 14, 6);
+            gemGraphics.generateTexture('gem', 32, 32);
+            gemGraphics.destroy();
+
+            // إنشاء عدو
+            const enemyGraphics = scene.add.graphics();
+            enemyGraphics.fillStyle(0xff0000, 1);
+            enemyGraphics.fillCircle(16, 16, 14);
+            enemyGraphics.fillStyle(0xff6666, 1);
+            enemyGraphics.fillCircle(12, 12, 4);
+            enemyGraphics.fillCircle(20, 12, 4);
+            enemyGraphics.fillStyle(0x000000, 1);
+            enemyGraphics.fillRect(10, 20, 12, 3);
+            enemyGraphics.generateTexture('enemy', 32, 32);
+            enemyGraphics.destroy();
+
+            // إنشاء رصاصة
+            const bulletGraphics = scene.add.graphics();
+            bulletGraphics.fillStyle(0x00ffff, 1);
+            bulletGraphics.fillCircle(8, 8, 6);
+            bulletGraphics.fillStyle(0xffffff, 0.8);
+            bulletGraphics.fillCircle(10, 6, 3);
+            bulletGraphics.generateTexture('bullet', 16, 16);
+            bulletGraphics.destroy();
+
+            // إنشاء خلفية Tile Sprite - طبقة خلفية (نجوم)
+            const bgGraphics = scene.add.graphics();
+            bgGraphics.fillStyle(0x0a0a1a, 1);
+            bgGraphics.fillRect(0, 0, 800, 600);
+            for (let i = 0; i < 50; i++) {
+                const x = Math.random() * 800;
+                const y = Math.random() * 600;
+                const size = Math.random() * 2 + 0.5;
+                bgGraphics.fillStyle(0xffffff, Math.random() * 0.5 + 0.5);
+                bgGraphics.fillCircle(x, y, size);
+            }
+            bgGraphics.generateTexture('background', 800, 600);
+            bgGraphics.destroy();
+
+            // إنشاء طبقة وسطى (كواكب)
+            const mgGraphics = scene.add.graphics();
+            mgGraphics.fillStyle(0x1a1a2e, 0.3);
+            mgGraphics.fillRect(0, 0, 800, 600);
+            for (let i = 0; i < 10; i++) {
+                const x = Math.random() * 800;
+                const y = Math.random() * 400;
+                const size = Math.random() * 30 + 20;
+                mgGraphics.fillStyle(0x4a5568, 0.4);
+                mgGraphics.fillCircle(x, y, size);
+            }
+            mgGraphics.generateTexture('middleground', 800, 600);
+            mgGraphics.destroy();
+
+            // إنشاء طبقة أمامية (سحب)
+            const fgGraphics = scene.add.graphics();
+            fgGraphics.fillStyle(0x2d3748, 0.2);
+            fgGraphics.fillRect(0, 0, 800, 600);
+            for (let i = 0; i < 15; i++) {
+                const x = Math.random() * 800;
+                const y = Math.random() * 300 + 300;
+                const width = Math.random() * 100 + 80;
+                const height = Math.random() * 30 + 20;
+                fgGraphics.fillStyle(0x1a1a1a, 0.3);
+                fgGraphics.fillEllipse(x, y, width, height);
+            }
+            fgGraphics.generateTexture('foreground', 800, 600);
+            fgGraphics.destroy();
+        }
+
+        function create() {
+            // إنشاء Tile Sprites للخلفية المتحركة مع Parallax
+            background = this.add.tileSprite(0, 0, worldBounds.width * 2, 600, 'background');
+            background.setOrigin(0, 0);
+            background.setScrollFactor(0);
+            
+            middleground = this.add.tileSprite(0, 0, worldBounds.width * 2, 600, 'middleground');
+            middleground.setOrigin(0, 0);
+            middleground.setScrollFactor(0);
+            
+            foreground = this.add.tileSprite(0, 0, worldBounds.width * 2, 600, 'foreground');
+            foreground.setOrigin(0, 0);
+            foreground.setScrollFactor(0);
+
+            // توسيع حدود العالم
+            this.physics.world.setBounds(0, 0, worldBounds.width, worldBounds.height);
+
+            // إنشاء المنصات
+            platforms = this.physics.add.staticGroup();
+            
+            // أرضية طويلة
+            for (let i = 0; i < worldBounds.width; i += 200) {
+                platforms.create(i + 100, 568, 'platform');
+            }
+            
+            // منصات متعددة المستويات
+            for (let i = 0; i < 15; i++) {
+                const x = 200 + i * 200;
+                const y = 450 - (i % 3) * 100;
+                platforms.create(x, y, 'platform');
+            }
+
+            // إنشاء اللاعب
+            player = this.physics.add.sprite(100, 450, 'player');
+            player.setBounce(0.2);
+            player.setCollideWorldBounds(true);
+            player.body.setSize(20, 30);
+
+            // إنشاء animations للاعب
+            this.anims.create({
+                key: 'idle',
+                frames: [{ key: 'player', frame: 0 }],
+                frameRate: 10,
+                repeat: -1
+            });
+
+            // النجوم
+            stars = this.physics.add.group();
+            for (let i = 0; i < 30; i++) {
+                const x = Phaser.Math.Between(100, worldBounds.width - 100);
+                const y = Phaser.Math.Between(50, 400);
+                const star = stars.create(x, y, 'star');
+                star.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+            }
+
+            // الجواهر
+            gems = this.physics.add.group();
+            for (let i = 0; i < 15; i++) {
+                const x = Phaser.Math.Between(300, worldBounds.width - 100);
+                const y = Phaser.Math.Between(100, 350);
+                const gem = gems.create(x, y, 'gem');
+                gem.setBounceY(Phaser.Math.FloatBetween(0.6, 0.9));
+            }
+
+            // الأعداء
+            enemies = this.physics.add.group();
+            for (let i = 0; i < 10; i++) {
+                const x = Phaser.Math.Between(400, worldBounds.width - 100);
+                const y = 400;
+                const enemy = enemies.create(x, y, 'enemy');
+                enemy.setBounce(1);
+                enemy.setCollideWorldBounds(true);
+                enemy.setVelocity(Phaser.Math.Between(-100, 100), 20);
+            }
+
+            // الرصاصات
+            bullets = this.physics.add.group();
+
+            // جزيئات التأثيرات
+            particles = this.add.particles('star');
+
+            // الكاميرا تتبع اللاعب
+            this.cameras.main.setBounds(0, 0, worldBounds.width, worldBounds.height);
+            this.cameras.main.startFollow(player, true, 0.1, 0.1);
+
+            // التصادمات
+            this.physics.add.collider(player, platforms);
+            this.physics.add.collider(stars, platforms);
+            this.physics.add.collider(gems, platforms);
+            this.physics.add.collider(enemies, platforms);
+            
+            this.physics.add.overlap(player, stars, collectStar, null, this);
+            this.physics.add.overlap(player, gems, collectGem, null, this);
+            this.physics.add.overlap(player, enemies, hitEnemy, null, this);
+            this.physics.add.overlap(bullets, enemies, bulletHitEnemy, null, this);
+
+            // النصوص
+            scoreText = this.add.text(16, 16, 'النقاط: 0', { 
+                fontSize: '28px', 
+                fill: '#ffffff',
+                fontFamily: 'Arial',
+                stroke: '#000000',
+                strokeThickness: 4
+            });
+            scoreText.setScrollFactor(0);
+
+            livesText = this.add.text(16, 50, '❤️ الحياة: 3', { 
+                fontSize: '28px', 
+                fill: '#ff0000',
+                fontFamily: 'Arial',
+                stroke: '#000000',
+                strokeThickness: 4
+            });
+            livesText.setScrollFactor(0);
+
+            // التحكم
+            cursors = this.input.keyboard.createCursorKeys();
+            
+            // مفتاح المسافة للإطلاق
+            this.input.keyboard.on('keydown-SPACE', shoot, this);
+            
+            // مفتاح R لإعادة اللعب
+            this.input.keyboard.on('keydown-R', restartGame, this);
+        }
+
+        function update() {
+            if (gameOver) {
+                return;
+            }
+
+            // تحريك الخلفيات مع الكاميرا (Parallax Scrolling)
+            const camera = this.cameras.main;
+            background.tilePositionX = camera.scrollX * 0.3;
+            middleground.tilePositionX = camera.scrollX * 0.6;
+            foreground.tilePositionX = camera.scrollX * 0.9;
+
+            // تحريك اللاعب
+            if (cursors.left.isDown) {
+                player.setVelocityX(-300);
+                player.setFlipX(true);
+            } else if (cursors.right.isDown) {
+                player.setVelocityX(300);
+                player.setFlipX(false);
+            } else {
+                player.setVelocityX(0);
+            }
+
+            // القفز
+            if (cursors.up.isDown && player.body.touching.down) {
+                player.setVelocityY(-500);
+            }
+
+            // تحريك الأعداء
+            enemies.children.entries.forEach(enemy => {
+                if (enemy.body.blocked.right) {
+                    enemy.setVelocityX(-100);
+                } else if (enemy.body.blocked.left) {
+                    enemy.setVelocityX(100);
+                }
+            });
+
+            // تدوير النجوم والجواهر
+            stars.children.entries.forEach(star => {
+                star.rotation += 0.02;
+            });
+
+            gems.children.entries.forEach(gem => {
+                gem.rotation += 0.03;
+                gem.y += Math.sin(gem.x * 0.01 + Date.now() * 0.001) * 0.5;
+            });
+
+            // تدوير الأعداء
+            enemies.children.entries.forEach(enemy => {
+                enemy.rotation += 0.01;
+            });
+
+            // إزالة الرصاصات البعيدة
+            bullets.children.entries.forEach(bullet => {
+                if (bullet.x > camera.scrollX + 1200 || bullet.x < camera.scrollX - 200) {
+                    bullet.destroy();
+                }
+            });
+        }
+
+        function shoot() {
+            if (!canShoot || gameOver) return;
+            
+            const bullet = bullets.create(player.x + (player.flipX ? -20 : 20), player.y, 'bullet');
+            bullet.setVelocityX(player.flipX ? -600 : 600);
+            bullet.body.allowGravity = false;
+            
+            // تأثير الإطلاق
+            const emitter = particles.createEmitter({
+                x: player.x,
+                y: player.y,
+                speed: { min: -100, max: 100 },
+                angle: { min: 0, max: 360 },
+                scale: { start: 0.3, end: 0 },
+                blendMode: 'ADD',
+                lifespan: 300,
+                quantity: 5
+            });
+            
+            emitter.explode();
+            
+            canShoot = false;
+            setTimeout(() => { canShoot = true; }, shootCooldown);
+        }
+
+        function collectStar(player, star) {
+            star.disableBody(true, true);
+            score += 10;
+            scoreText.setText('النقاط: ' + score);
+            
+            // تأثير جمع النجمة
+            const emitter = particles.createEmitter({
+                x: star.x,
+                y: star.y,
+                speed: { min: 50, max: 200 },
+                angle: { min: 0, max: 360 },
+                scale: { start: 0.5, end: 0 },
+                blendMode: 'ADD',
+                lifespan: 500,
+                quantity: 10
+            });
+            
+            emitter.explode();
+        }
+
+        function collectGem(player, gem) {
+            gem.disableBody(true, true);
+            score += 50;
+            scoreText.setText('النقاط: ' + score);
+            
+            // تأثير جمع الجوهرة
+            const emitter = particles.createEmitter({
+                x: gem.x,
+                y: gem.y,
+                speed: { min: 100, max: 300 },
+                angle: { min: 0, max: 360 },
+                scale: { start: 0.8, end: 0 },
+                tint: 0xff00ff,
+                blendMode: 'ADD',
+                lifespan: 700,
+                quantity: 15
+            });
+            
+            emitter.explode();
+        }
+
+        function hitEnemy(player, enemy) {
+            lives--;
+            livesText.setText('❤️ الحياة: ' + lives);
+            
+            player.setTint(0xff0000);
+            setTimeout(() => { player.clearTint(); }, 200);
+            
+            player.setVelocity(-200, -300);
+            
+            if (lives <= 0) {
+                endGame(this);
+            }
+        }
+
+        function bulletHitEnemy(bullet, enemy) {
+            bullet.destroy();
+            enemy.disableBody(true, true);
+            score += 25;
+            scoreText.setText('النقاط: ' + score);
+            
+            // انفجار العدو
+            const emitter = particles.createEmitter({
+                x: enemy.x,
+                y: enemy.y,
+                speed: { min: 100, max: 300 },
+                angle: { min: 0, max: 360 },
+                scale: { start: 1, end: 0 },
+                tint: 0xff0000,
+                blendMode: 'ADD',
+                lifespan: 800,
+                quantity: 20
+            });
+            
+            emitter.explode();
+        }
+
+        function endGame(scene) {
+            gameOver = true;
+            player.setTint(0xff0000);
+            player.setVelocity(0, 0);
+            
+            const gameOverText = scene.add.text(500, 300, 'انتهت اللعبة!\nالنقاط النهائية: ' + score + '\nاضغط R للعب مرة أخرى', {
+                fontSize: '48px',
+                fill: '#ffffff',
+                align: 'center',
+                fontFamily: 'Arial',
+                stroke: '#000000',
+                strokeThickness: 6
+            });
+            gameOverText.setOrigin(0.5);
+            gameOverText.setScrollFactor(0);
+            gameOverText.setDepth(1000);
+        }
+
+        function restartGame() {
+            score = 0;
+            lives = 3;
+            gameOver = false;
+            this.scene.restart();
+        }
+    </script>
+</body>
+</html>
