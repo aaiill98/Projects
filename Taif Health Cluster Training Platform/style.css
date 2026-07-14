@@ -1,0 +1,743 @@
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-bar {
+    background-color: #29327A;
+    padding: 10px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.main-logo-img {
+    width: 220px;
+    height: auto;
+    user-drag: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+}
+
+.main-background {
+    background-color: #29327A;
+    height: calc(100vh - 80px);
+    background-image:
+        url("IMG_1706 8L.png"),
+        url("IMG_1706 8-2.png");
+    background-position:
+        bottom left,
+        top right;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 350px, 350px;
+}
+
+
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  font-family: 'Cairo', sans-serif;
+  color: white;
+  direction: rtl;
+  overflow-x: hidden;
+  background-color: #29327a;
+  background-image: url('IMG_1706 8L.png'), url('IMG_1706 8-2.png');
+  background-position: bottom left, top right;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 350px, 350px;
+}
+
+/* Page Containers */
+.page-container {
+  display: flex; /* Show the single page */
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 80px; /* To prevent content from being hidden by the header */
+}
+
+/* Header Styles */
+.header-bar {
+  background-color: transparent;
+  padding: 10px 20px;
+  position: fixed; /* Fixed header */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* This is a helper element to keep the logo centered by balancing the button on the other side */
+.logo-placeholder {
+  width: 150px; /* Adjust this width to match the button's width for perfect centering */
+}
+
+.main-logo-img {
+  width: 150px; /* Adjusted size for better centering */
+  height: auto;
+  user-drag: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+}
+
+.btn-login {
+  background-color: transparent;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  width: 150px; /* Adjusted width to match the placeholder */
+  text-align: center;
+}
+
+.btn-login:hover {
+  background-color: #ffffff;
+  color: #29327a;
+}
+
+/* Hero Section */
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 40px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Info Cards */
+.info-card {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.5s ease;
+  backdrop-filter: blur(10px);
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.info-card h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+  color: white;
+  transition: all 0.5s ease;
+}
+
+.info-card .card-text {
+  font-size: 1rem;
+  opacity: 0;
+  max-height: 0;
+  transition: all 0.5s ease;
+  margin-top: 10px;
+  text-align: center;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.info-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+  height: auto;
+  min-height: 200px;
+  padding: 40px 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.info-card:hover .card-text {
+  opacity: 1;
+  max-height: 200px; /* A value larger than the expected height */
+}
+
+/* Program Section */
+.program-section {
+  padding: 80px 0;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  margin-top: 50px;
+}
+
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.section-description {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 40px;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: justify;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-signup {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.btn-signup:hover {
+  background-color: #047857;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+/* Footer */
+.main-footer {
+  padding: 30px 0;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  margin-top: 60px;
+}
+
+.footer-text {
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  font-size: 14px;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.social-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-background {
+    background-size: 200px, 200px;
+  }
+  .main-logo-img {
+    width: 100px;
+  }
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  .section-title {
+    font-size: 1.8rem;
+  }
+  .section-description {
+    font-size: 1rem;
+    text-align: center;
+  }
+  .info-card {
+    height: 100px;
+  }
+  .info-card h3 {
+    font-size: 1.1rem;
+  }
+  .social-icons {
+    justify-content: center;
+    margin-top: 20px;
+  }
+  .footer-text {
+    text-align: center;
+  }
+  .btn-login,
+  .btn-signup {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .logo-placeholder, .btn-login {
+    width: 100px;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-title {
+    font-size: 1.5rem;
+  }
+  .section-title {
+    font-size: 1.5rem;
+  }
+  .info-card {
+    height: 80px;
+  }
+  .info-card h3 {
+    font-size: 1rem;
+  }
+}
+
+حق الويتنق 
+
+/* التنسيقات العامة التي كانت موجودة */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #29327A;
+}
+
+.main-background {
+    min-height: 100vh;
+    background-image:
+        url("IMG_1706 8L.png"),
+        url("IMG_1706 8-2.png");
+    background-position:
+        bottom left,
+        top right;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 350px, 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
+
+/* تنسيقات صفحة حالة الطلب الجديدة */
+.waiting-page {
+    text-align: center;
+    padding-top: 80px;
+    background-color: #29327A;
+}
+
+.header-content {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+.back-link:hover {
+    color: #00D1B2;
+}
+
+.form-logo {
+    width: 120px;
+}
+
+.status-container {
+    margin-top: 120px;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 800px;
+}
+
+.status-container h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.status-container p {
+    font-size: 1.7rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 30px;
+}
+
+/* تنسيقات شريط التقدم */
+.progress-bar-container {
+    width: 100%;
+    margin: 40px auto;
+}
+
+.progress-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 30px 20px;
+}
+
+.progress-line {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-50%);
+    z-index: 0;
+    border-radius: 3px;
+    background: linear-gradient(to right, #00D1B2, rgba(255, 255, 255, 0.2));
+}
+
+.progress-step {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.3s ease;
+    flex: 1;
+}
+
+.dot {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.label {
+    margin-top: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* تنسيق الخطوة النشطة (التي تم تحقيقها) */
+.progress-step.active {
+    color: #00D1B2;
+}
+
+.progress-step.active .dot {
+    background-color: #00D1B2;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 209, 178, 0.5);
+    color: #fff;
+}
+
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-bar {
+    background-color: #29327A;
+    padding: 10px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.main-logo-img {
+    width: 220px;
+    height: auto;
+    user-drag: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+}
+
+.main-bg {
+    background-color: #1a237e; /* Dark blue background */
+    height: calc(100vh - 80px); /* Adjust height for the header */
+    background-image:
+        url("IMG_1706 8L.png"),
+        url("IMG_1706 8-2.png");
+    background-position:
+        bottom left,
+        top right;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 350px, 350px;
+    color: #fff;
+    position: relative;
+}
+
+.form-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-container h2 {
+    font-weight: 700;
+}
+
+.custom-input {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 0.25rem;
+    overflow: hidden;
+    height: 50px;
+}
+
+.custom-input .input-group-text {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    padding: 0 1rem;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    order: 2;
+}
+
+.custom-input .form-control {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    text-align: right;
+    padding-right: 1rem;
+    order: 1;
+}
+
+.custom-input .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    text-align: right;
+}
+
+.custom-input .form-control:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: #fff;
+    box-shadow: none;
+    color: #fff;
+}
+
+.signup-btn {
+    background-color: #28a745;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.signup-btn:hover {
+    background-color: #218838;
+}
+
+a {
+    color: #00bfff;
+}
+
+a:hover {
+    color: #0099cc;
+}
+
+/* New styles for validation messages */
+.error-message {
+    color: #ff6666;
+    font-size: 0.85rem;
+    display: block;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+/* New styles for password strength indicator */
+.password-strength-meter {
+    height: 10px;
+    border-radius: 5px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin-top: 5px;
+}
+
+.password-strength-bar {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.3s ease;
+}
+
+.strength-weak {
+    background-color: #ff4d4d;
+    width: 33%;
+}
+.strength-medium {
+    background-color: #ffcc00;
+    width: 66%;
+}
+.strength-strong {
+    background-color: #66cc66;
+    width: 100%;
+}
+
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-bar {
+    background-color: #29327A;
+    padding: 10px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.main-logo-img {
+    width: 220px;
+    height: auto;
+    user-drag: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+}
+
+.main-bg {
+    background-color: #1a237e; /* Dark blue background */
+    height: calc(100vh - 80px); /* Adjust height for the header */
+    background-image:
+        url("IMG_1706 8L.png"),
+        url("IMG_1706 8-2.png");
+    background-position:
+        bottom left,
+        top right;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 350px, 350px;
+    color: #fff;
+    position: relative;
+}
+
+.form-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-container h2 {
+    font-weight: 700;
+}
+
+.custom-input {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 0.25rem;
+    overflow: hidden;
+    height: 50px;
+    margin-bottom: 1rem;
+}
+
+.custom-input .input-group-text {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    padding: 0 1rem;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    order: 2; /* Move icon to the right side for RTL */
+}
+
+.custom-input .form-control {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    text-align: right; /* Ensure text is aligned correctly in RTL */
+    padding-right: 1rem;
+    order: 1; /* Move input field to the left side */
+}
+
+.custom-input .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    text-align: right; /* Ensure placeholder is aligned correctly in RTL */
+}
+
+.custom-input .form-control:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: #fff;
+    box-shadow: none;
+    color: #fff;
+}
+
+.signup-btn {
+    background-color: #28a745; /* Green color from image */
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.signup-btn:hover {
+    background-color: #218838;
+}
+
+a {
+    color: #00bfff; /* Light blue link color */
+}
+
+a:hover {
+    color: #0099cc;
+}

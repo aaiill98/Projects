@@ -1,0 +1,306 @@
+/* signup.css - ملف CSS خاص بصفحة التسجيل */
+
+/* التنسيقات الأساسية للصفحة */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-bar {
+    background-color: #29327A;
+    padding: 10px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.main-logo-img {
+    width: 220px;
+    height: auto;
+    user-drag: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+}
+
+.main-bg {
+    background-color: #1a237e;
+    min-height: 100vh;
+    background-image:
+        url("../images/IMG_1706 8L.png"),
+        url("../images/IMG_1706 8-2.png");
+    background-position:
+        bottom left,
+        top right;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 350px, 350px;
+    color: #fff;
+    position: relative;
+    padding: 20px 0;
+}
+
+/* تنسيقات الحاوي الرئيسي للنموذج */
+.form-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
+    max-width: 420px;
+    margin: 20px auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: slideInUp 0.6s ease-out;
+}
+
+/* تنسيقات العناوين */
+.form-container h2 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.form-container p {
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* تنسيقات المدخلات */
+.mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+.custom-input {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    height: 45px;
+    transition: all 0.3s ease;
+}
+
+.custom-input:focus-within {
+    border-color: #00bfff;
+    box-shadow: 0 0 0 2px rgba(0, 191, 255, 0.2);
+}
+
+.custom-input .input-group-text {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    padding: 0 0.8rem;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    order: 2;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.custom-input:focus-within .input-group-text {
+    opacity: 1;
+}
+
+.custom-input .form-control {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    text-align: right;
+    padding: 0 0.8rem;
+    order: 1;
+    font-size: 0.95rem;
+}
+
+.custom-input .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    text-align: right;
+    font-size: 0.9rem;
+}
+
+.custom-input .form-control:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: #fff;
+    box-shadow: none;
+    color: #fff;
+    outline: none;
+}
+
+/* تنسيقات النصوص المساعدة */
+.form-text {
+    font-size: 0.75rem !important;
+    margin-top: 0.25rem !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* تنسيقات رسائل الخطأ */
+.text-danger {
+    font-size: 0.75rem !important;
+    margin-top: 0.25rem !important;
+    color: #ff6b6b !important;
+}
+
+/* تنسيقات التنبيهات */
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.1) !important;
+    border-color: rgba(220, 53, 69, 0.3) !important;
+    color: #ff6b6b !important;
+    padding: 0.75rem !important;
+    margin-bottom: 1rem !important;
+    font-size: 0.85rem !important;
+    border-radius: 0.5rem;
+}
+
+.alert-info {
+    padding: 0.75rem !important;
+    margin-bottom: 1rem !important;
+    font-size: 0.85rem !important;
+    border-radius: 0.5rem;
+    background-color: rgba(13, 202, 240, 0.1) !important;
+    border-color: rgba(13, 202, 240, 0.3) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* تنسيقات الأزرار */
+.signup-btn {
+    background-color: #28a745;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    padding: 12px 0;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+}
+
+.signup-btn:hover {
+    background-color: #218838;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.signup-btn:active {
+    transform: translateY(0);
+}
+
+/* تنسيقات الروابط */
+a {
+    color: #00bfff;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #0099cc;
+}
+
+/* تنسيقات النصوص في الأسفل */
+.mt-3 {
+    margin-top: 1rem !important;
+    font-size: 0.9rem;
+}
+
+.text-center small {
+    font-size: 0.75rem !important;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* الانيميشن */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* تنسيقات متقدمة للمدخلات */
+.row-fields {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.row-fields .col {
+    flex: 1;
+}
+
+/* تحسينات للشاشات المتوسطة */
+@media (max-width: 768px) {
+    .form-container {
+        max-width: 90%;
+    }
+    
+    .main-bg {
+        background-size: 300px, 300px;
+    }
+    
+    .main-logo-img {
+        width: 180px;
+    }
+}
+
+/* تحسينات للشاشات الصغيرة */
+@media (max-width: 576px) {
+    .form-container {
+        max-width: 95%;
+        margin: 10px auto;
+        padding: 1.5rem !important;
+    }
+    
+    .main-bg {
+        padding: 10px 0;
+        background-size: 250px, 250px;
+    }
+    
+    .custom-input {
+        height: 42px;
+    }
+    
+    .form-container h2 {
+        font-size: 1.3rem;
+    }
+    
+    .header-bar {
+        padding: 5px 0;
+    }
+    
+    .main-logo-img {
+        width: 160px;
+    }
+    
+    /* في الشاشات الصغيرة، الحقول تعود لعمود واحد */
+    .row.g-2 .col-md-6 {
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* تحسينات إضافية للمظهر */
+.form-container hr {
+    border-color: rgba(255, 255, 255, 0.2);
+    margin: 0.75rem 0;
+}
+
+/* تحسين تفاعلية الأيقونات */
+.custom-input .fa {
+    transition: all 0.3s ease;
+}
+
+.custom-input:hover .fa {
+    color: #00bfff;
+}
+
+/* تحسين المؤشر */
+.custom-input .form-control,
+.signup-btn {
+    cursor: pointer;
+}
+
+.custom-input .form-control:focus {
+    cursor: text;
+}

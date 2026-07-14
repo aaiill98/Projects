@@ -1,0 +1,493 @@
+/* waiting.css - ملف CSS خاص بصفحة حالة الطلب */
+
+/* متغيرات CSS */
+:root {
+    --primary-color: #00D1B2;
+    --secondary-color: #1a237e;
+    --background-color: #29327A;
+    --line-color: rgba(255, 255, 255, 0.2);
+    --completed-line-color: var(--primary-color);
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+}
+
+/* إعادة تعيين وتنسيقات أساسية */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* الخلفية والتخطيط العام */
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: var(--background-color);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    color: #ffffff;
+}
+
+.waiting-page {
+    background-color: var(--background-color);
+    min-height: 100vh;
+    color: white;
+    position: relative;
+}
+
+/* نمط الخلفية */
+body::before,
+.waiting-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: 
+        url('IMG_1706 8L.png'), 
+        url('IMG_1706 8-2.png');
+    background-position: bottom left, top right;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 350px, 350px;
+}
+
+.container-fluid {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+}
+
+/* تنسيقات الهيدر */
+.header-logo {
+    width: 80px;
+    height: auto;
+    transition: all 0.3s ease;
+}
+
+.header-logo:hover {
+    transform: scale(1.1);
+}
+
+.btn-link {
+    font-size: 16px;
+    font-weight: 400;
+    transition: all 0.3s ease;
+    color: #ffffff !important;
+    text-decoration: none;
+}
+
+.btn-link:hover {
+    color: var(--primary-color) !important;
+    transform: translateX(-5px);
+}
+
+/* كارت معلومات الطلب */
+.application-info-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.application-info-card:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.application-info-card .card-header {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1rem 1rem 0 0 !important;
+    padding: 1.25rem;
+}
+
+.application-info-card .card-header h3 {
+    margin: 0;
+    color: white;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.application-info-card .card-body {
+    padding: 1.5rem;
+}
+
+.application-info-card p {
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.application-info-card strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* رسالة الحالة الرئيسية */
+.main-message h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.main-message p {
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin-bottom: 0;
+}
+
+/* حاوي التقدم */
+.progress-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* خطوات التقدم */
+.progress-steps {
+    position: relative;
+    flex-wrap: nowrap;
+    gap: 0;
+    padding: 40px 20px;
+    margin: 20px 0;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.6);
+    transition: all 0.6s ease;
+    z-index: 2;
+}
+
+.step.active {
+    color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.step.completed {
+    color: var(--primary-color);
+}
+
+.step:hover {
+    transform: scale(1.1);
+}
+
+.step.completed:hover .step-circle,
+.step.active:hover .step-circle {
+    box-shadow: 0 0 30px rgba(0, 209, 178, 0.6);
+}
+
+/* دوائر الخطوات */
+.step-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.step.active .step-circle {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 0 20px rgba(0, 209, 178, 0.4);
+    animation: pulse 2s infinite;
+}
+
+.step.completed .step-circle {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 0 20px rgba(0, 209, 178, 0.4);
+}
+
+.step-circle i {
+    font-size: 20px;
+    color: white;
+}
+
+.step-circle i.fa-spin {
+    animation: spin 2s linear infinite;
+}
+
+/* تسميات الخطوات */
+.step-label {
+    color: white;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    line-height: 1.4;
+    max-width: 150px;
+    word-wrap: break-word;
+    margin-bottom: 8px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.step-date {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 5px;
+}
+
+.step-info {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 5px;
+    font-style: italic;
+    text-align: center;
+    max-width: 150px;
+}
+
+/* خطوط الربط */
+.step-line {
+    height: 4px;
+    background: var(--line-color);
+    flex: 1;
+    margin: 0 -2px;
+    margin-top: 28px;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.step-line.completed {
+    background: var(--completed-line-color);
+    box-shadow: 0 0 10px rgba(0, 209, 178, 0.3);
+}
+
+/* التنبيهات */
+.alert {
+    border-radius: 0.75rem;
+    border: none;
+    backdrop-filter: blur(10px);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    position: relative;
+    z-index: 2;
+}
+
+.alert-success {
+    background-color: rgba(40, 167, 69, 0.15);
+    color: var(--success-color);
+    border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.15);
+    color: var(--danger-color);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.alert-warning {
+    background-color: rgba(255, 193, 7, 0.15);
+    color: var(--warning-color);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.alert-info {
+    background-color: rgba(13, 202, 240, 0.15);
+    color: var(--info-color);
+    border: 1px solid rgba(13, 202, 240, 0.3);
+}
+
+/* الأزرار */
+.btn {
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    position: relative;
+    z-index: 2;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    color: white;
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    color: white;
+}
+
+.btn-info {
+    background-color: var(--info-color);
+    color: white;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+    color: white;
+}
+
+.btn-outline-light {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: white;
+}
+
+.btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: white;
+    color: white;
+}
+
+/* الانيميشن */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 209, 178, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 209, 178, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 209, 178, 0); }
+}
+
+/* تحسينات للشاشات المتوسطة */
+@media (max-width: 768px) {
+    body::before,
+    .waiting-page::before {
+        background-size: 250px, 250px;
+    }
+    
+    .main-message h2 {
+        font-size: 2rem;
+    }
+    
+    .main-message p {
+        font-size: 1rem;
+    }
+    
+    .step-circle {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .step-circle i {
+        font-size: 16px;
+    }
+    
+    .step-label {
+        font-size: 12px;
+        max-width: 120px;
+    }
+    
+    .step-line {
+        margin-top: 23px;
+    }
+    
+    .application-info-card .card-body {
+        padding: 1rem;
+    }
+    
+    .application-info-card .row .col-md-6 {
+        margin-bottom: 1rem;
+    }
+}
+
+/* تحسينات للشاشات الصغيرة */
+@media (max-width: 576px) {
+    body::before,
+    .waiting-page::before {
+        background-size: 200px, 200px;
+    }
+    
+    .progress-steps {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px 10px;
+    }
+    
+    .step {
+        flex-direction: row;
+        text-align: right;
+        max-width: 100%;
+        background-color: rgba(255, 255, 255, 0.05);
+        padding: 15px;
+        border-radius: 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+    }
+    
+    .step-circle {
+        margin-bottom: 0;
+        margin-left: 15px;
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+        flex-shrink: 0;
+    }
+    
+    .step-content {
+        flex: 1;
+    }
+    
+    .step-label {
+        margin-bottom: 5px;
+        min-height: auto;
+        text-align: right;
+        max-width: 250px;
+        font-size: 0.8rem;
+    }
+    
+    .step-line {
+        display: none;
+    }
+    
+    .main-message h2 {
+        font-size: 1.8rem;
+    }
+    
+    .header-logo {
+        width: 60px;
+    }
+    
+    .progress-container {
+        padding: 0 10px;
+    }
+}

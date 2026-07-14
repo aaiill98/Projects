@@ -1,0 +1,477 @@
+/* login.css - ملف CSS خاص بصفحة تسجيل الدخول */
+
+/* التنسيقات الأساسية للصفحة */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-bar {
+    background-color: #29327A;
+    padding: 10px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.main-logo-img {
+    width: 220px;
+    height: auto;
+    user-drag: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+}
+
+.main-bg {
+    background-color: #1a237e;
+    height: calc(100vh - 80px);
+    background-image:
+        url("../images/IMG_1706 8L.png"),
+        url("../images/IMG_1706 8-2.png");
+    background-position:
+        bottom left,
+        top right;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 350px, 350px;
+    color: #fff;
+    position: relative;
+}
+
+/* تنسيقات الحاوي الرئيسي للنموذج */
+.form-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: slideInUp 0.6s ease-out;
+}
+
+/* تنسيقات العناوين */
+.form-container h2 {
+    font-weight: 700;
+    color: #fff;
+    font-size: 1.75rem;
+}
+
+.form-container .text-muted {
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-size: 0.95rem;
+}
+
+/* تنسيقات التسميات */
+.form-label {
+    color: #fff !important;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.form-label i {
+    color: rgba(255, 255, 255, 0.8);
+    margin-left: 0.5rem;
+}
+
+/* تنسيقات المدخلات */
+.custom-input {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 0.5rem !important;
+    color: #fff !important;
+    padding: 12px 15px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    text-align: right !important; /* إجبار النص على اليمين */
+    direction: rtl !important; /* تأكيد الاتجاه */
+}
+
+.custom-input::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+    text-align: right !important; /* إجبار placeholder على اليمين */
+    direction: rtl !important; /* تأكيد اتجاه placeholder */
+}
+
+.custom-input:focus {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    border-color: #00bfff !important;
+    box-shadow: 0 0 0 2px rgba(0, 191, 255, 0.2) !important;
+    color: #fff !important;
+    outline: none;
+}
+
+/* تنسيقات مجموعة المدخلات */
+.input-group {
+    position: relative;
+    direction: rtl !important; /* إجبار الاتجاه */
+}
+
+.input-group .custom-input {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-top-right-radius: 0.5rem !important;
+    border-bottom-right-radius: 0.5rem !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.4) !important; /* إضافة border-left */
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+.input-group-text {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-right: none !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-top-left-radius: 0.5rem !important;
+    border-bottom-left-radius: 0.5rem !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.input-group-text:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: #00bfff !important;
+}
+
+/* تنسيقات خانة اختيار "تذكرني" */
+.form-check {
+    margin: 0;
+}
+
+.form-check-input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 0.25rem;
+}
+
+.form-check-input:checked {
+    background-color: #00bfff;
+    border-color: #00bfff;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 2px rgba(0, 191, 255, 0.2);
+}
+
+.form-check-label {
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+/* تنسيقات رابط "نسيت كلمة المرور" */
+.forgot-password-link {
+    color: #00bfff !important;
+    font-size: 0.85rem !important;
+    transition: color 0.3s ease;
+}
+
+.forgot-password-link:hover {
+    color: #0099cc !important;
+    text-decoration: underline !important;
+}
+
+/* تنسيقات الأزرار */
+.signup-btn {
+    background-color: #28a745 !important;
+    border: none !important;
+    color: #fff !important;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    padding: 12px 0;
+    font-size: 1rem;
+    border-radius: 0.5rem !important;
+}
+
+.signup-btn:hover {
+    background-color: #218838 !important;
+    color: #fff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3) !important;
+}
+
+.signup-btn:active {
+    transform: translateY(0);
+}
+
+.signup-btn:focus {
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.3) !important;
+}
+
+/* تنسيقات رابط إنشاء حساب جديد */
+.signup-link {
+    color: #00bfff !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.signup-link:hover {
+    color: #0099cc !important;
+    text-decoration: underline !important;
+}
+
+/* تنسيقات التنبيهات */
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.1) !important;
+    border-color: rgba(220, 53, 69, 0.3) !important;
+    color: #ff6b6b !important;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.alert-danger i {
+    color: #ff6b6b;
+}
+
+/* تنسيقات الخط الفاصل */
+.form-container hr {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    margin: 1rem 0;
+}
+
+/* تنسيقات النصوص الصغيرة */
+.small {
+    font-size: 0.85rem !important;
+}
+
+.text-muted.small {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* الانيميشن */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* تنسيقات التحقق من صحة النموذج */
+.was-validated .form-control:invalid {
+    border-color: #dc3545 !important;
+    background-color: rgba(220, 53, 69, 0.1) !important;
+}
+
+.was-validated .form-control:valid {
+    border-color: #28a745 !important;
+    background-color: rgba(40, 167, 69, 0.1) !important;
+}
+
+.invalid-feedback {
+    color: #ff6b6b !important;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}
+
+.valid-feedback {
+    color: #28a745 !important;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}
+
+/* تحسينات للشاشات المتوسطة */
+@media (max-width: 768px) {
+    .form-container {
+        max-width: 90%;
+    }
+    
+    .main-bg {
+        background-size: 300px, 300px;
+    }
+    
+    .main-logo-img {
+        width: 180px;
+    }
+    
+    .form-container h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* تحسينات للشاشات الصغيرة */
+@media (max-width: 576px) {
+    .form-container {
+        max-width: 95%;
+        padding: 1.5rem !important;
+    }
+    
+    .main-bg {
+        background-size: 250px, 250px;
+    }
+    
+    .custom-input {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .header-bar {
+        padding: 5px 0;
+    }
+    
+    .main-logo-img {
+        width: 160px;
+    }
+    
+    .form-container h2 {
+        font-size: 1.4rem;
+    }
+    
+    /* تنسيق خاص للشاشات الصغيرة */
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .d-flex.justify-content-between .form-check {
+        order: 2;
+    }
+    
+    .d-flex.justify-content-between .forgot-password-link {
+        order: 1;
+        text-align: center;
+    }
+}
+
+/* تحسينات إضافية للمظهر */
+.form-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.form-container::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        rgba(0, 191, 255, 0.3), 
+        rgba(40, 167, 69, 0.3), 
+        rgba(0, 191, 255, 0.3)
+    );
+    border-radius: 1rem;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.form-container:hover::before {
+    opacity: 1;
+}
+
+/* تحسين تفاعلية العناصر */
+.custom-input,
+.form-check-input,
+.signup-btn {
+    transition: all 0.3s ease;
+}
+
+.custom-input:hover {
+    border-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* تحسين الأيقونات */
+.fa {
+    transition: all 0.3s ease;
+}
+
+.form-label:hover .fa,
+.signup-btn:hover .fa {
+    transform: scale(1.1);
+}
+
+/* حل قوي جداً للتغلب على Bootstrap - زيادة الأولوية */
+.form-container input[type="email"].custom-input,
+.form-container input[type="password"].custom-input,
+.form-container input[type="number"].custom-input,
+.form-container input[type="tel"].custom-input,
+.form-container input[type="url"].custom-input,
+#login-form input[type="email"],
+#login-form input[type="password"],
+#loginEmail.form-control,
+#loginPassword.form-control {
+    direction: rtl !important;
+    text-align: right !important;
+    unicode-bidi: embed !important;
+}
+
+.form-container input[type="email"].custom-input::placeholder,
+.form-container input[type="password"].custom-input::placeholder,
+.form-container input[type="number"].custom-input::placeholder,
+.form-container input[type="tel"].custom-input::placeholder,
+.form-container input[type="url"].custom-input::placeholder,
+#login-form input[type="email"]::placeholder,
+#login-form input[type="password"]::placeholder,
+#loginEmail.form-control::placeholder,
+#loginPassword.form-control::placeholder {
+    direction: rtl !important;
+    text-align: right !important;
+    unicode-bidi: embed !important;
+}
+
+/* حل إضافي باستخدام CSS Variable Override */
+.custom-input[type="email"],
+.custom-input[type="password"] {
+    direction: rtl !important;
+    text-align: right !important;
+    writing-mode: horizontal-tb !important;
+    unicode-bidi: embed !important;
+}
+
+/* إصلاح خاص لمتصفحات مختلفة مع زيادة الأولوية */
+.form-container input::-webkit-input-placeholder,
+#login-form input::-webkit-input-placeholder {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+.form-container input::-moz-placeholder,
+#login-form input::-moz-placeholder {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+.form-container input:-ms-input-placeholder,
+#login-form input:-ms-input-placeholder {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+.form-container input:-moz-placeholder,
+#login-form input:-moz-placeholder {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* تحسين التمايز البصري */
+#login-form-card {
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: border-color 0.3s ease;
+}
+
+#login-form-card:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* تنسيق خاص للتركيز */
+.custom-input:focus + .form-label {
+    color: #00bfff !important;
+}
+
+/* تحسين الانتقالات */
+* {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}

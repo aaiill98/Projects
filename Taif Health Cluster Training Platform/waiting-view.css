@@ -1,0 +1,233 @@
+/* ===============================
+   review_all_forms.css — Colors from student_forms + Centered fields
+   =============================== */
+
+:root{
+  --bg:#29327A;              /* خلفية المنصّة */
+  --accent:#00D1B2;          /* اللون الأساسي للأزرار */
+  --text:#ffffff;            /* لون النصوص الأساسي */
+  --muted:rgba(255,255,255,.75);
+  --card-bg:rgba(255,255,255,0.10);
+  --card-bd:rgba(255,255,255,0.20);
+  --field-bg:rgba(255,255,255,0.15);
+  --field-bd:rgba(255,255,255,0.50);
+  --field-bg-focus:rgba(255,255,255,0.25);
+}
+
+/* نصوص بيضاء */
+body, .card, .section-card, .section-title, .section-title *, .field-label, .field-value, .badge-pill,
+.text-white, .text-light { color: var(--text) !important; }
+
+/* كارت رئيسي */
+.form-card{
+  background: var(--card-bg);
+  border:1px solid var(--card-bd);
+  border-radius:16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  backdrop-filter: blur(5px);
+}
+
+/* بطاقة القسم */
+.section-card{
+  background: transparent;
+  border:1px solid var(--card-bd);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:18px;
+}
+
+/* العناوين */
+.section-title{
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:10px;
+  color: var(--text);
+}
+
+/* صفوف الحقول */
+.field-row{
+  display: grid;
+  grid-template-columns: 200px 1fr 140px;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px dashed rgba(255,255,255,0.25);
+  max-width: 700px; /* عرض أقصى */
+  margin: 0 auto;   /* وسط الصفحة */
+}
+
+/* تسميات الحقول */
+.field-label{ font-weight:600; color: var(--text); }
+
+/* المدخلات */
+.field-editor input,
+.field-editor select,
+.field-editor textarea{
+  color: var(--text);
+  background: var(--field-bg);
+  border: 1px solid var(--field-bd);
+  border-radius: .5rem;
+}
+.field-editor input::placeholder,
+.field-editor textarea::placeholder{ color: #cccccc; }
+
+/* أزرار */
+.field-actions .btn{ min-width:120px; }
+.btn{ border-radius: .5rem; }
+.btn-outline-light{ color: var(--text); border-color: var(--text); }
+.btn-outline-light:hover{ background: var(--text); color: #000; }
+.btn-warning.text-dark { 
+    background-color: #399FCC !important; 
+    color: #fff !important; 
+    border-color: #399FCC !important; 
+}
+
+/* زر النجاح */
+.btn-success{
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+.btn-success:hover{
+  background-color: #00b396;
+  border-color: #00b396;
+}
+
+/* قوائم Choices.js */
+.choices{ direction: rtl; text-align: right; }
+.choices__inner{
+  min-height: 42px;
+  background: var(--field-bg);
+  color: var(--text);
+  border: 1px solid var(--field-bd);
+  border-radius: .5rem;
+}
+.choices__list--single .choices__item,
+.choices__list--multiple .choices__item{ color: #000; }
+.choices__placeholder{ color: #000; opacity: 1; }
+
+
+.choices__input{ color: var(--text); background: transparent; }
+.choices[data-type*='select-one']::after{ right:auto; left: 12px; }
+
+/* خلفية */
+.background-pattern{
+  min-height: 100vh;
+  background-color: var(--bg);
+  background-image:
+    url("IMG_1706 8L.png"),
+    url("IMG_1706 8-2.png");
+  background-position: bottom left, top right;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 350px, 350px;
+}
+
+/* Toast */
+.toast.text-bg-dark{
+  background: rgba(0,0,0,.75) !important;
+  border-radius:12px;
+}
+
+/* شاشات كبيرة */
+@media (min-width: 1400px){
+  .field-row{ max-width: 820px; }
+}
+
+/* موبايل */
+@media (max-width: 768px){
+  .field-row{ max-width: 100%; }
+}
+
+
+.choices__list--dropdown {
+  text-align: right;
+  border-color: var(--field-bd);
+  background: #fff;   /* White background */
+  color: #000;        /* Black text */
+}
+.choices__list--dropdown .choices__item--selectable {
+  color: #000;        /* Black text for each option */
+}
+
+
+/* === Force dropdown options to black on white === */
+.choices__list--dropdown{
+  text-align: right;
+  border-color: var(--field-bd);
+  background: #fff !important;   /* white background for dropdown */
+  color: #000 !important;        /* black text for dropdown */
+}
+.choices__list--dropdown .choices__item--selectable{
+  color: #000 !important;
+}
+.choices__list--dropdown .choices__item--selectable.is-highlighted{
+  background: rgba(0,209,178,0.15) !important; /* subtle accent highlight */
+  color: #000 !important;
+}
+/* Search input inside dropdown */
+.choices__list--dropdown .choices__input{
+  background: #fff !important;
+  color: #000 !important;
+}
+
+.form-logo{display:block;margin-inline:auto;}
+
+.form-logo { max-width: 180px; height: auto; }
+
+
+.btn-edit-custom {
+    background-color: #399FCC !important;
+    color: #fff !important;
+    border-color: #399FCC !important;
+}
+.btn-edit-custom:hover {
+    background-color: #2d89b5 !important;
+    border-color: #2d89b5 !important;
+}
+
+.error-msg { font-size: 0.85rem; color: red; }
+
+
+/* ===== Polishing styles ===== */
+.page-title{
+  font-size: 2rem;
+  font-weight: 800;
+  color: #fff;
+  display: inline-block;
+  border-bottom: 3px solid var(--accent);
+  padding-bottom: .3rem;
+}
+
+.btn-primary{
+  background-color: #399FCC !important;
+  border-color: #399FCC !important;
+}
+.btn-primary:hover, .btn-primary:focus{
+  background-color: #2d89b5 !important;
+  border-color: #2d89b5 !important;
+}
+
+/* Invalid field visual cue */
+.field-row.invalid .field-editor input,
+.field-row.invalid .field-editor select,
+.field-row.invalid .field-editor textarea{
+  border-color: #ff4d4f !important;
+  box-shadow: 0 0 0 .25rem rgba(255,77,79,.15);
+}
+
+/* Section card hover depth */
+.section-card{ transition: transform .15s ease, box-shadow .15s ease; }
+.section-card:hover{ transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.28); }
+
+/* Scroll to top button */
+.scroll-top{
+  position: fixed;
+  bottom: 24px;
+  left: 24px; /* RTL page: left is more natural */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+  z-index: 1050;
+}
+.scroll-top.show{ opacity: 1; pointer-events: auto; }
