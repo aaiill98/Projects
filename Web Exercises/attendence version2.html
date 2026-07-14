@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام الحضور والانصراف - تجمع الطائف الصحي</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            --secondary-gradient: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            --success-gradient: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            --warning-gradient: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            --danger-gradient: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --shadow-light: 0 4px 16px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.15);
+            --shadow-heavy: 0 12px 40px rgba(0, 0, 0, 0.2);
+            --text-dark: #2c3e50;
+            --text-medium: #5a6c7d;
+            --text-light: #7f8c8d;
+            --border-light: #e8f0f5;
+            --bg-light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            direction: rtl;
+            padding: 20px;
+            font-weight: 400;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(52, 152, 219, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(46, 204, 113, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(155, 89, 182, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: var(--glass-bg);
+            border-radius: 24px;
+            box-shadow: var(--shadow-heavy);
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            animation: slideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(40px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        /* رأس الصفحة */
+        .header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 32px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* المحتوى الرئيسي */
+        .content {
+            padding: 32px 24px;
+        }
+
+        /* بطاقة معلومات الموظف */
+        .employee-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+
+        .employee-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .employee-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .employee-avatar {
+            width: 56px;
+            height: 56px;
+            background: var(--secondary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .employee-details h3 {
+            color: var(--text-dark);
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .employee-details p {
+            color: var(--text-medium);
+            font-size: 14px;
+            margin: 2px 0;
+        }
+
+        /* بطاقة الحالة */
+        .status-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--success-gradient);
+            transition: background 0.3s ease;
+        }
+
+        .status-card.warning::before { 
+            background: var(--warning-gradient); 
+        }
+
+        .status-card.error::before { 
+            background: var(--danger-gradient); 
+        }
+
+        .status-text {
+            font-size: 16px;
+            color: var(--text-dark);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-icon {
+            font-size: 20px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        /* عرض الوقت */
+        .time-display {
+            text-align: center;
+            margin: 32px 0;
+            background: white;
+            padding: 32px 24px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-light);
+            position: relative;
+        }
+
+        .current-time {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--text-dark);
+            font-family: 'Courier New', monospace;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .current-date {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-medium);
+        }
+
+        /* الإحصائيات */
+        .stats-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.05), rgba(46, 204, 113, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-medium);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* منطقة المعلومات */
+        .location-info {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.1));
+            border: 2px solid rgba(46, 204, 113, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 24px 0;
+            font-size: 14px;
+            color: var(--text-dark);
+            display: none;
+            line-height: 1.8;
+        }
+
+        .location-info strong {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #27ae60;
+        }
+
+        /* الأزرار */
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 20px 24px;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: var(--shadow-light);
+            backdrop-filter: blur(10px);
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-check-in {
+            background: var(--success-gradient);
+            color: white;
+            border: 2px solid transparent;
+        }
+
+        .btn-check-in:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+
+        .btn-check-out {
+            background: var(--warning-gradient);
+            color: white;
+            border: 2px solid transparent;
+        }
+
+        .btn-check-out:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(243, 156, 18, 0.4);
+        }
+
+        .btn:disabled {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: var(--shadow-light) !important;
+            opacity: 0.6;
+        }
+
+        .btn:disabled::before {
+            display: none;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* سجل الحضور */
+        .history-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-light);
+        }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .history-header h3 {
+            color: var(--text-dark);
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .history-icon {
+            font-size: 24px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: var(--bg-light);
+            border-radius: 12px;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .history-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--success-gradient);
+            border-radius: 0 4px 4px 0;
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .history-item:hover {
+            transform: translateX(8px);
+            background: white;
+            box-shadow: var(--shadow-light);
+        }
+
+        .history-item:hover::before {
+            transform: scaleY(1);
+        }
+
+        .history-type {
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+        }
+
+        .history-type-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--success-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(46, 204, 113, 0.3);
+        }
+
+        .history-time {
+            font-size: 16px;
+            color: var(--text-medium);
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            background: rgba(0,0,0,0.05);
+            padding: 8px 16px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+        }
+
+        /* مؤشر التحميل */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #ffffff;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* الإشعارات */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-60px);
+            background: white;
+            color: var(--text-dark);
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-heavy);
+            z-index: 10000;
+            font-weight: 600;
+            text-align: center;
+            max-width: 90%;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid var(--border-light);
+            font-size: 15px;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .notification.success {
+            border-left: 4px solid #27ae60;
+        }
+
+        .notification.warning {
+            border-left: 4px solid #f39c12;
+        }
+
+        .notification.error {
+            border-left: 4px solid #e74c3c;
+        }
+
+        .notification.info {
+            border-left: 4px solid #3498db;
+        }
+
+        /* تأثيرات الحركة */
+        .pulse {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* الاستجابة للشاشات الصغيرة */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                max-width: 100%;
+                border-radius: 20px;
+            }
+            
+            .content {
+                padding: 24px 16px;
+            }
+            
+            .header {
+                padding: 24px 16px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .current-time {
+                font-size: 40px;
+            }
+            
+            .btn {
+                padding: 18px 20px;
+                font-size: 16px;
+            }
+            
+            .employee-card,
+            .history-section {
+                padding: 20px 16px;
+            }
+
+            .stats-container {
+                gap: 12px;
+            }
+
+            .stat-card {
+                padding: 16px;
+            }
+
+            .stat-number {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* تأثيرات إضافية للتفاعل */
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .ripple:active::after {
+            width: 200px;
+            height: 200px;
+        }
+
+        /* تخصيص شريط التمرير */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-light);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-light);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-medium);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- رأس الصفحة -->
+        <div class="header">
+            <div class="logo-section">
+                <div class="logo">🏥</div>
+            </div>
+            <h1>نظام الحضور والانصراف</h1>
+            <p>تجمع الطائف الصحي</p>
+        </div>
+        
+        <div class="content">
+            <!-- بطاقة معلومات الموظف -->
+            <div class="employee-card fade-in">
+                <div class="employee-header">
+                    <div class="employee-avatar" id="employeeAvatar" style="background: linear-gradient(135deg, #3498db, #2980b9);">أع</div>
+                    <div class="employee-details">
+                        <h3 id="employeeName">أحمد محمد العتيبي</h3>
+                        <p><strong>رقم الموظف:</strong> <span id="employeeId">EMP-2024-001</span></p>
+                        <p><strong>القسم:</strong> <span id="employeeDepartment">قسم الطوارئ</span></p>
+                        <p><strong>المنصب:</strong> <span id="employeePosition">ممرض أول</span></p>
+                    </div>
+                </div>
+                <!-- أزرار تبديل الموظف -->
+                <div style="margin-top: 16px; display: flex; gap: 8px; justify-content: center;">
+                    <button onclick="switchEmployee(0)" class="employee-switch-btn" id="emp-btn-0">أحمد</button>
+                    <button onclick="switchEmployee(1)" class="employee-switch-btn" id="emp-btn-1">فاطمة</button>
+                    <button onclick="switchEmployee(2)" class="employee-switch-btn" id="emp-btn-2">خالد</button>
+                </div>
+            </div>
+
+            <!-- بطاقة حالة النظام -->
+            <div id="statusCard" class="status-card fade-in">
+                <div class="status-text">
+                    <span class="status-icon">🔍</span>
+                    <span id="statusText">جاري التحقق من النظام...</span>
+                </div>
+            </div>
+
+            <!-- الإحصائيات السريعة -->
+            <div class="stats-container fade-in">
+                <div class="stat-card">
+                    <div class="stat-number" id="todayHours">0</div>
+                    <div class="stat-label">ساعات اليوم</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="thisMonthDays">0</div>
+                    <div class="stat-label">أيام الشهر</div>
+                </div>
+            </div>
+            
+            <!-- عرض الوقت -->
+            <div class="time-display fade-in">
+                <div class="current-time" id="currentTime">--:--:--</div>
+                <div class="current-date" id="currentDate">جاري التحميل...</div>
+            </div>
+            
+            <!-- معلومات الموقع -->
+            <div class="location-info" id="locationInfo" style="display: none;"></div>
+            
+            <!-- أزرار التسجيل -->
+            <div class="buttons-container fade-in">
+                <button id="checkInBtn" class="btn btn-check-in ripple" onclick="checkIn()" disabled>
+                    <span id="checkInText">تسجيل الحضور</span>
+                </button>
+                
+                <button id="checkOutBtn" class="btn btn-check-out ripple" onclick="checkOut()" disabled>
+                    <span id="checkOutText">تسجيل الانصراف</span>
+                </button>
+            </div>
+            
+            <!-- سجل الحضور -->
+            <div class="history-section fade-in">
+                <div class="history-header">
+                    <span class="history-icon">📊</span>
+                    <h3>سجل الحضور اليوم</h3>
+                </div>
+                <div class="history-list" id="historyList">
+                    <div class="history-item">
+                        <div class="history-type">
+                            <div class="history-type-icon">⏰</div>
+                            <span>لا توجد سجلات اليوم</span>
+                        </div>
+                        <div class="history-time">--:--</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // إعدادات النظام
+        const WORK_LOCATION = {
+            name: 'تجمع الطائف الصحي',
+            latitude: 21.2624,
+            longitude: 40.3957,
+            radius: 200 // نصف القطر بالأمتار
+        };
+
+        // بيانات الموظفين التجريبية
+        const employeesData = [
+            {
+                id: 'EMP-2024-001',
+                name: 'أحمد محمد العتيبي',
+                department: 'قسم الطوارئ',
+                position: 'ممرض أول',
+                avatar: 'أع',
+                color: '#3498db'
+            },
+            {
+                id: 'EMP-2024-002',
+                name: 'فاطمة علي الزهراني',
+                department: 'قسم العمليات',
+                position: 'فني أشعة',
+                avatar: 'فز',
+                color: '#e74c3c'
+            },
+            {
+                id: 'EMP-2024-003',
+                name: 'خالد سعد القحطاني',
+                department: 'قسم المختبر',
+                position: 'أخصائي تحاليل',
+                avatar: 'خق',
+                color: '#27ae60'
+            }
+        ];
+
+        // متغيرات النظام
+        let userLocation = null;
+        let isInWorkArea = false;
+        let currentEmployeeIndex = 0;
+        let currentEmployee = employeesData[currentEmployeeIndex];
+        
+        // إنشاء بيانات تجريبية للحضور
+        let attendanceHistory = JSON.parse(localStorage.getItem('attendanceHistory') || '[]');
+        
+        // إضافة بيانات تجريبية إذا لم تكن موجودة
+        if (attendanceHistory.length === 0) {
+            attendanceHistory = generateSampleData();
+            localStorage.setItem('attendanceHistory', JSON.stringify(attendanceHistory));
+        }
+
+        // تحديث الوقت والتاريخ
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ar-SA', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+            const dateString = now.toLocaleDateString('ar-SA', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            document.getElementById('currentTime').textContent = timeString;
+            document.getElementById('currentDate').textContent = dateString;
+        }
+
+        // حساب المسافة بين نقطتين
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371e3;
+            const φ1 = lat1 * Math.PI/180;
+            const φ2 = lat2 * Math.PI/180;
+            const Δφ = (lat2-lat1) * Math.PI/180;
+            const Δλ = (lon2-lon1) * Math.PI/180;
+
+            const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                    Math.cos(φ1) * Math.cos(φ2) *
+                    Math.sin(Δλ/2) * Math.sin(Δλ/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+            return R * c;
+        }
+
+        // التحقق من الموقع
+        function checkLocation() {
+            if (!navigator.geolocation) {
+                updateStatus('error', '❌', 'متصفحك لا يدعم خدمة الموقع');
+                return;
+            }
+
+            updateStatus('warning', '🔍', 'جاري التحقق من موقعك...');
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    userLocation = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        accuracy: position.coords.accuracy
+                    };
+
+                    const distance = calculateDistance(
+                        userLocation.latitude,
+                        userLocation.longitude,
+                        WORK_LOCATION.latitude,
+                        WORK_LOCATION.longitude
+                    );
+
+                    // للتطوير والاختبار - السماح من أي مكان
+                    isInWorkArea = true;
+
+                    if (isInWorkArea) {
+                        updateStatus('', '✅', 'مرحباً بك! النظام جاهز للاستخدام');
+                        enableButtons();
+                    } else {
+                        updateStatus('error', '🚫', `خارج منطقة العمل (${Math.round(distance)}م)`);
+                        disableButtons();
+                    }
+
+                    updateLocationInfo(distance);
+                },
+                (error) => {
+                    // في حالة فشل الحصول على الموقع
+                    updateStatus('warning', '⚠️', 'تم تفعيل النظام - وضع التجريب');
+                    isInWorkArea = true;
+                    enableButtons();
+                    
+                    userLocation = {
+                        latitude: WORK_LOCATION.latitude,
+                        longitude: WORK_LOCATION.longitude,
+                        accuracy: 50
+                    };
+                    
+                    updateLocationInfo(0);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 300000
+                }
+            );
+        }
+
+        // تحديث حالة النظام
+        function updateStatus(type, icon, text) {
+            const statusCard = document.getElementById('statusCard');
+            const statusText = document.getElementById('statusText');
+            
+            statusCard.className = `status-card ${type}`;
+            statusText.innerHTML = `<span class="status-icon">${icon}</span><span>${text}</span>`;
+
+            // إضافة تأثير النبض للحالات المهمة
+            if (type === '' || type === 'error') {
+                statusCard.classList.add('pulse');
+                setTimeout(() => statusCard.classList.remove('pulse'), 3000);
+            }
+        }
+
+        // تحديث معلومات الموقع
+        function updateLocationInfo(distance) {
+            const locationInfo = document.getElementById('locationInfo');
+            locationInfo.style.display = 'block';
+            locationInfo.innerHTML = `
+                <strong>📍 معلومات الموقع:</strong><br>
+                🏥 المسافة من ${WORK_LOCATION.name}: ${Math.round(distance)} متر<br>
+                🎯 دقة الموقع: ±${Math.round(userLocation.accuracy)} متر<br>
+                🌍 الإحداثيات: ${userLocation.latitude.toFixed(6)}, ${userLocation.longitude.toFixed(6)}
+            `;
+        }
+
+        // تفعيل الأزرار
+        function enableButtons() {
+            document.getElementById('checkInBtn').disabled = false;
+            document.getElementById('checkOutBtn').disabled = false;
+        }
+
+        // تعطيل الأزرار
+        function disableButtons() {
+            document.getElementById('checkInBtn').disabled = true;
+            document.getElementById('checkOutBtn').disabled = true;
+        }
+
+        // تسجيل الحضور
+        function checkIn() {
+            const checkInBtn = document.getElementById('checkInBtn');
+            const checkInText = document.getElementById('checkInText');
+            
+            // فحص آخر تسجيل لمنع التسجيل المتكرر
+            const today = new Date().toLocaleDateString('ar-SA');
+            const todayRecords = attendanceHistory.filter(record => 
+                record.date === today && 
+                record.employee && 
+                record.employee.id === currentEmployee.id
+            );
+            const lastCheckIn = todayRecords.find(record => record.type === 'حضور');
+            
+            if (lastCheckIn) {
+                showNotification('لقد قمت بتسجيل الحضور مسبقاً اليوم!', 'warning');
+                return;
+            }
+            
+            checkInBtn.disabled = true;
+            checkInText.innerHTML = 'جاري التسجيل... <span class="loading-spinner"></span>';
+
+            setTimeout(() => {
+                const now = new Date();
+                const record = {
+                    id: Date.now(),
+                    type: 'حضور',
+                    time: now.toLocaleTimeString('ar-SA', { 
+                        hour: '2-digit', 
+                        minute: '2-digit',
+                        hour12: true 
+                    }),
+                    date: now.toLocaleDateString('ar-SA'),
+                    location: userLocation,
+                    timestamp: now.toISOString(),
+                    employee: currentEmployee
+                };
+
+                attendanceHistory.unshift(record);
+                localStorage.setItem('attendanceHistory', JSON.stringify(attendanceHistory));
+                
+                updateHistory();
+                updateStats();
+                checkInText.innerHTML = '✅ تم بنجاح';
+                
+                // تأثيرات التفاعل
+                if (navigator.vibrate) {
+                    navigator.vibrate([200, 100, 200]);
+                }
+                
+                setTimeout(() => {
+                    checkInText.textContent = 'تسجيل الحضور';
+                    checkInBtn.disabled = false;
+                }, 3000);
+                
+                showNotification(`🎉 مرحباً ${currentEmployee.name}! تم تسجيل حضورك بنجاح`, 'success');
+                
+                // إرسال إلى الخادم (محاكاة)
+                sendToServer(record);
+            }, 2000);
+        }
+
+        // تسجيل الانصراف
+        function checkOut() {
+            const checkOutBtn = document.getElementById('checkOutBtn');
+            const checkOutText = document.getElementById('checkOutText');
+            
+            // فحص وجود تسجيل حضور قبل الانصراف
+            const today = new Date().toLocaleDateString('ar-SA');
+            const todayRecords = attendanceHistory.filter(record => 
+                record.date === today && 
+                record.employee && 
+                record.employee.id === currentEmployee.id
+            );
+            const hasCheckIn = todayRecords.some(record => record.type === 'حضور');
+            const lastCheckOut = todayRecords.find(record => record.type === 'انصراف');
+            
+            if (!hasCheckIn) {
+                showNotification('يجب تسجيل الحضور أولاً!', 'warning');
+                return;
+            }
+            
+            if (lastCheckOut) {
+                showNotification('لقد قمت بتسجيل الانصراف مسبقاً اليوم!', 'warning');
+                return;
+            }
+            
+            checkOutBtn.disabled = true;
+            checkOutText.innerHTML = 'جاري التسجيل... <span class="loading-spinner"></span>';
+
+            setTimeout(() => {
+                const now = new Date();
+                const record = {
+                    id: Date.now(),
+                    type: 'انصراف',
+                    time: now.toLocaleTimeString('ar-SA', { 
+                        hour: '2-digit', 
+                        minute: '2-digit',
+                        hour12: true 
+                    }),
+                    date: now.toLocaleDateString('ar-SA'),
+                    location: userLocation,
+                    timestamp: now.toISOString(),
+                    employee: currentEmployee
+                };
+
+                attendanceHistory.unshift(record);
+                localStorage.setItem('attendanceHistory', JSON.stringify(attendanceHistory));
+                
+                updateHistory();
+                updateStats();
+                checkOutText.innerHTML = '✅ تم بنجاح';
+                
+                // تأثيرات التفاعل
+                if (navigator.vibrate) {
+                    navigator.vibrate([300, 150, 300, 150, 300]);
+                }
+                
+                setTimeout(() => {
+                    checkOutText.textContent = 'تسجيل الانصراف';
+                    checkOutBtn.disabled = false;
+                }, 3000);
+                
+                // حساب ساعات العمل
+                const checkInRecord = todayRecords.find(r => r.type === 'حضور');
+                if (checkInRecord) {
+                    const workHours = calculateWorkHours(checkInRecord.timestamp, record.timestamp);
+                    showNotification(`👋 شكراً لك! عملت اليوم ${workHours.toFixed(1)} ساعات`, 'success');
+                } else {
+                    showNotification('👋 شكراً لك! تم تسجيل انصرافك بنجاح', 'success');
+                }
+                
+                // إرسال إلى الخادم (محاكاة)
+                sendToServer(record);
+            }, 2000);
+        }
+
+        // حساب ساعات العمل
+        function calculateWorkHours(checkInTime, checkOutTime) {
+            const start = new Date(checkInTime);
+            const end = new Date(checkOutTime);
+            const diffMs = end - start;
+            return diffMs / (1000 * 60 * 60); // تحويل إلى ساعات
+        }
+
+        // إرسال البيانات للخادم (محاكاة)
+        async function sendToServer(record) {
+            try {
+                // محاكاة طلب HTTP
+                console.log('إرسال إلى الخادم:', record);
+                
+                // يمكن استبدال هذا بطلب fetch حقيقي
+                /*
+                const response = await fetch('/api/attendance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(record)
+                });
+                
+                const result = await response.json();
+                if (!result.success) {
+                    throw new Error(result.message);
+                }
+                */
+                
+            } catch (error) {
+                console.error('خطأ في إرسال البيانات:', error);
+                showNotification('تم الحفظ محلياً - سيتم المزامنة لاحقاً', 'warning');
+            }
+        }
+
+        // عرض الإشعارات
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // تأثير الظهور
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            // إخفاء الإشعار
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 400);
+            }, 5000);
+        }
+
+        // إنشاء بيانات تجريبية
+        function generateSampleData() {
+            const sampleData = [];
+            const today = new Date();
+            
+            // بيانات لكل موظف على مدى الأسبوع الماضي
+            employeesData.forEach((employee, empIndex) => {
+                for (let i = 0; i < 7; i++) {
+                    const date = new Date(today);
+                    date.setDate(date.getDate() - i);
+                    
+                    // تخطي عطل نهاية الأسبوع أحياناً
+                    if (date.getDay() === 5 || date.getDay() === 6) {
+                        if (Math.random() > 0.3) continue;
+                    }
+                    
+                    const dateStr = date.toLocaleDateString('ar-SA');
+                    
+                    // وقت الحضور (8:00 - 9:30)
+                    const checkInHour = 8 + Math.floor(Math.random() * 1.5);
+                    const checkInMinute = Math.floor(Math.random() * 60);
+                    const checkInTime = new Date(date);
+                    checkInTime.setHours(checkInHour, checkInMinute);
+                    
+                    // وقت الانصراف (16:00 - 18:00)
+                    const checkOutHour = 16 + Math.floor(Math.random() * 2);
+                    const checkOutMinute = Math.floor(Math.random() * 60);
+                    const checkOutTime = new Date(date);
+                    checkOutTime.setHours(checkOutHour, checkOutMinute);
+                    
+                    // إضافة سجل الحضور
+                    sampleData.push({
+                        id: Date.now() + Math.random() * 1000 + empIndex * 10000,
+                        type: 'حضور',
+                        time: checkInTime.toLocaleTimeString('ar-SA', { 
+                            hour: '2-digit', 
+                            minute: '2-digit',
+                            hour12: true 
+                        }),
+                        date: dateStr,
+                        location: {
+                            latitude: WORK_LOCATION.latitude + (Math.random() - 0.5) * 0.001,
+                            longitude: WORK_LOCATION.longitude + (Math.random() - 0.5) * 0.001,
+                            accuracy: 20 + Math.random() * 30
+                        },
+                        timestamp: checkInTime.toISOString(),
+                        employee: employee
+                    });
+                    
+                    // إضافة سجل الانصراف (85% من الوقت)
+                    if (Math.random() > 0.15) {
+                        sampleData.push({
+                            id: Date.now() + Math.random() * 1000 + empIndex * 10000 + 1,
+                            type: 'انصراف',
+                            time: checkOutTime.toLocaleTimeString('ar-SA', { 
+                                hour: '2-digit', 
+                                minute: '2-digit',
+                                hour12: true 
+                            }),
+                            date: dateStr,
+                            location: {
+                                latitude: WORK_LOCATION.latitude + (Math.random() - 0.5) * 0.001,
+                                longitude: WORK_LOCATION.longitude + (Math.random() - 0.5) * 0.001,
+                                accuracy: 20 + Math.random() * 30
+                            },
+                            timestamp: checkOutTime.toISOString(),
+                            employee: employee
+                        });
+                    }
+                }
+            });
+            
+            // ترتيب البيانات حسب التاريخ (الأحدث أولاً)
+            return sampleData.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        }
+
+        // تبديل الموظف
+        function switchEmployee(index) {
+            if (index >= 0 && index < employeesData.length) {
+                currentEmployeeIndex = index;
+                currentEmployee = employeesData[index];
+                
+                // تحديث واجهة الموظف
+                updateEmployeeDisplay();
+                
+                // تحديث البيانات
+                updateHistory();
+                updateStats();
+                
+                // تحديث أزرار التبديل
+                document.querySelectorAll('.employee-switch-btn').forEach((btn, i) => {
+                    btn.classList.toggle('active', i === index);
+                });
+                
+                showNotification(`تم التبديل إلى ${currentEmployee.name}`, 'info');
+            }
+        }
+
+        // تحديث عرض معلومات الموظف
+        function updateEmployeeDisplay() {
+            document.getElementById('employeeName').textContent = currentEmployee.name;
+            document.getElementById('employeeId').textContent = currentEmployee.id;
+            document.getElementById('employeeDepartment').textContent = currentEmployee.department;
+            document.getElementById('employeePosition').textContent = currentEmployee.position;
+            
+            const avatar = document.getElementById('employeeAvatar');
+            avatar.textContent = currentEmployee.avatar;
+            avatar.style.background = `linear-gradient(135deg, ${currentEmployee.color}, ${currentEmployee.color}dd)`;
+        }
+        function updateHistory() {
+            const historyList = document.getElementById('historyList');
+            const today = new Date().toLocaleDateString('ar-SA');
+            const todayRecords = attendanceHistory.filter(record => record.date === today);
+
+            if (todayRecords.length === 0) {
+                historyList.innerHTML = `
+                    <div class="history-item">
+                        <div class="history-type">
+                            <div class="history-type-icon">⏰</div>
+                            <span>لا توجد سجلات اليوم</span>
+                        </div>
+                        <div class="history-time">--:--</div>
+                    </div>
+                `;
+                return;
+            }
+
+            historyList.innerHTML = todayRecords.map((record, index) => {
+                const icon = record.type === 'حضور' ? '🟢' : '🔴';
+                return `
+                    <div class="history-item fade-in" style="animation-delay: ${index * 0.1}s;">
+                        <div class="history-type">
+                            <div class="history-type-icon">${icon}</div>
+                            <span>${record.type}</span>
+                        </div>
+                        <div class="history-time">${record.time}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // تحديث الإحصائيات
+        function updateStats() {
+            const today = new Date().toLocaleDateString('ar-SA');
+            const todayRecords = attendanceHistory.filter(record => record.date === today);
+            
+            // حساب ساعات اليوم
+            let todayHours = 0;
+            const checkIn = todayRecords.find(r => r.type === 'حضور');
+            const checkOut = todayRecords.find(r => r.type === 'انصراف');
+            
+            if (checkIn && checkOut) {
+                todayHours = calculateWorkHours(checkIn.timestamp, checkOut.timestamp);
+            } else if (checkIn) {
+                todayHours = calculateWorkHours(checkIn.timestamp, new Date().toISOString());
+            }
+            
+            // حساب أيام الشهر
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+            const monthlyRecords = attendanceHistory.filter(record => {
+                const recordDate = new Date(record.timestamp);
+                return recordDate.getMonth() === currentMonth && 
+                       recordDate.getFullYear() === currentYear &&
+                       record.type === 'حضور';
+            });
+            
+            // تجميع الأيام الفريدة
+            const uniqueDays = [...new Set(monthlyRecords.map(r => new Date(r.timestamp).getDate()))];
+            
+            document.getElementById('todayHours').textContent = todayHours.toFixed(1);
+            document.getElementById('thisMonthDays').textContent = uniqueDays.length;
+        }
+
+        // تشغيل النظام عند التحميل
+        window.addEventListener('load', () => {
+            // تحديث عرض الموظف الحالي
+            updateEmployeeDisplay();
+            
+            // تفعيل زر الموظف الحالي
+            document.getElementById(`emp-btn-${currentEmployeeIndex}`).classList.add('active');
+            
+            // تحديث الوقت كل ثانية
+            updateTime();
+            setInterval(updateTime, 1000);
+            
+            // تحديث البيانات
+            updateHistory();
+            updateStats();
+            
+            // فحص الموقع
+            checkLocation();
+            
+            // رسالة ترحيب
+            setTimeout(() => {
+                showNotification('🏥 مرحباً بك في نظام الحضور والانصراف', 'info');
+                setTimeout(() => {
+                    showNotification('💡 يمكنك التبديل بين الموظفين للتجريب', 'info');
+                }, 3000);
+            }, 2000);
+        });
+
+        // مراقبة تغيير حالة الاتصال بالإنترنت
+        window.addEventListener('online', () => {
+            showNotification('🌐 تم استعادة الاتصال بالإنترنت', 'success');
+        });
+
+        window.addEventListener('offline', () => {
+            showNotification('📱 وضع عدم الاتصال - البيانات محفوظة محلياً', 'warning');
+        });
+
+        // منع إغلاق الصفحة عن طريق الخطأ
+        window.addEventListener('beforeunload', (e) => {
+            const today = new Date().toLocaleDateString('ar-SA');
+            const todayRecords = attendanceHistory.filter(record => 
+                record.date === today && 
+                record.employee && 
+                record.employee.id === currentEmployee.id
+            );
+            const hasCheckIn = todayRecords.some(record => record.type === 'حضور');
+            const hasCheckOut = todayRecords.some(record => record.type === 'انصراف');
+            
+            if (hasCheckIn && !hasCheckOut) {
+                e.preventDefault();
+                e.returnValue = `${currentEmployee.name} لم يقم بتسجيل الانصراف بعد. هل أنت متأكد؟`;
+            }
+        });
+
+        // دوال مساعدة إضافية
+        function exportData() {
+            const dataStr = JSON.stringify(attendanceHistory, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `attendance_${currentEmployee.id}_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function clearHistory() {
+            if (confirm('هل أنت متأكد من حذف جميع السجلات؟')) {
+                localStorage.removeItem('attendanceHistory');
+                attendanceHistory = [];
+                updateHistory();
+                updateStats();
+                showNotification('تم حذف جميع السجلات', 'info');
+            }
+        }
+
+        // إضافة مستمعات للوحة المفاتيح للاختصارات
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey) {
+                switch(e.key) {
+                    case 'i': // Ctrl+I للحضور
+                        e.preventDefault();
+                        if (!document.getElementById('checkInBtn').disabled) {
+                            checkIn();
+                        }
+                        break;
+                    case 'o': // Ctrl+O للانصراف
+                        e.preventDefault();
+                        if (!document.getElementById('checkOutBtn').disabled) {
+                            checkOut();
+                        }
+                        break;
+                }
+            }
+        });
+
+        // إضافة مستمع للنقر على الأزرار لتأثير الريبل
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('ripple') || e.target.closest('.ripple')) {
+                const button = e.target.classList.contains('ripple') ? e.target : e.target.closest('.ripple');
+                
+                const rect = button.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                const ripple = document.createElement('span');
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255,255,255,0.3);
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    animation: ripple-effect 0.6s ease-out;
+                    pointer-events: none;
+                `;
+                
+                button.appendChild(ripple);
+                
+                setTimeout(() => {
+                    if (button.contains(ripple)) {
+                        button.removeChild(ripple);
+                    }
+                }, 600);
+            }
+        });
+
+        // إضافة CSS للتأثير المضاف ديناميكياً
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple-effect {
+                0% {
+                    transform: scale(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
