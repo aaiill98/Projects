@@ -1,0 +1,158 @@
+<?php
+include 'connection.php';
+$sql = "SELECT job_id, name_ar, image_path FROM jobs";
+$result = mysqli_query($conn, $sql);
+?>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taif Jobs</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container">
+            <a class="navbar-brand" href="#">Taif Jobs</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="jobs.php">Jobs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="apply.html">Apply</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-3">
+                    <li class="nav-item">
+                        <a class="nav-link login-link" href="#">LOGIN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-warning signup-button" href="#">SIGN UP</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Find Your <span class="hero-highlight">Future</span> Today!</h1>
+            <p class="hero-subtitle">The Ultimate Guide to Jobs Worldwide</p>
+            <a href="#" class="hero-button">Get Started</a>
+        </div>
+    </section>
+
+    <section class="info-section">
+        <div class="container">
+            <p class="info-text">
+                Explore your options and make informed decisions with our comprehensive guide to universities around the
+                world. Discover top-ranked institutions, explore diverse programs, and connect with like-minded
+                individuals to build your academic future. With easy-to-use search tools, in-depth profiles, and trusted
+                ratings and reviews, we provide everything you need to make the right choice for your academic journey.
+                Start your search today and find your perfect fit!
+            </p>
+            <a href="#" class="info-button">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Feature Cards Section -->
+    <section class="features-section">
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-search feature-icon"></i>
+                <h3>Find a Course</h3>
+                <p>Search by subject, course or region to find the right course for you.</p>
+                <a href="#" class="feature-btn">
+                    Get Started <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-university feature-icon"></i>
+                <h3>Find a University</h3>
+                <p>Search for universities to find out about courses and more.</p>
+                <a href="#" class="feature-btn">
+                    Get Started <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-calendar-alt feature-icon"></i>
+                <h3>Find an Open Day</h3>
+                <p>Search and book open days to help you make the right choice.</p>
+                <a href="#" class="feature-btn">
+                    Get Started <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Ranking Universities Section -->
+    <section class="universities-section">
+        <h2>Available Jobs</h2>
+        <div class="section-underline"></div>
+        <div class="universities-grid">
+            <?php while ($job = mysqli_fetch_assoc($result)): ?>
+                <div class="uni-card">
+                    <img src="<?= $job['image_path'] ?>" alt="<?= htmlspecialchars($job['name_ar']) ?>">
+                    <h3><?= htmlspecialchars($job['name_ar']) ?></h3>
+                    <a href="apply.html" class="uni-btn">
+                        Apply Now <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            <?php endwhile; ?>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <section class="newsletter-section">
+        <div class="container">
+            <h2>Subscribe to our newsletter</h2>
+            <p class="newsletter-text">
+                Get expert advice for your journey to university delivered to your inbox each month. It’s short, and
+                worthwhile – we promise!
+            </p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Email address" required>
+                <label>
+                    <input type="checkbox">
+                    I confirm I am over 16 and I agree to the <a href="#">Terms and Conditions</a> and <a
+                        href="#">Privacy Notice</a>.
+                </label>
+            </form>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </section>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
